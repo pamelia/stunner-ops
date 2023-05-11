@@ -7,4 +7,4 @@ metadata:
 spec:
   realm: stunner.l7mp.io
   authType: ephemeral
-  AuthRef: ephemeral-secret
+  authRef: ephemeral-secret
