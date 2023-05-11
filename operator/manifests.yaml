@@ -3,16 +3,19 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: stunner-auth
+  namespace: stunner
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: stunner-gateway-operator-controller-manager
+  namespace: stunner
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: stunner-gateway-operator-manager-config
+  namespace: stunner
 data:
   controller_manager_config.yaml: |
     apiVersion: controller-runtime.sigs.k8s.io/v1alpha1
@@ -171,6 +174,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: stunner-auth
+    namespace: stunner
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -183,6 +187,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: stunner-gateway-operator-controller-manager
+  namespace: stunner
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -195,11 +200,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: stunner-gateway-operator-controller-manager
+  namespace: stunner
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: stunner-gateway-operator-leader-election-role
+  namespace: stunner
 rules:
 - apiGroups:
   - ""
@@ -237,6 +244,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: stunner-gateway-operator-leader-election-rolebinding
+  namespace: stunner
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -244,11 +252,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: stunner-gateway-operator-controller-manager
+  namespace: stunner
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: stunner-auth
+  namespace: stunner
   labels:
     app: stunner-auth
 spec:
@@ -265,6 +275,7 @@ metadata:
   labels:
     control-plane: controller-manager
   name: stunner-gateway-operator-controller-manager-metrics-service
+  namespace: stunner
 spec:
   ports:
   - name: https
@@ -278,6 +289,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: stunner-auth
+  namespace: stunner
   labels:
     app: stunner-auth
 spec:
@@ -329,6 +341,7 @@ metadata:
   labels:
     control-plane: controller-manager
   name: stunner-gateway-operator-controller-manager
+  namespace: stunner
 spec:
   replicas: 1
   selector:
